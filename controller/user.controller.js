@@ -34,10 +34,6 @@ exports.signUpUser = async (req, res) => {
     }
 }
 
-exports.userLogin = async (req, res) => {
-
-}
-
 exports.getUser = async (req, res) => {
     try {
         const userID = req.params.id
