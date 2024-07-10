@@ -65,13 +65,13 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
-userSchema.methods.generateAuthToken = async function () {
-    const user = this;
-    const token = jwt.sign({ _id: user._id.toString() }, 'secretkey'); // Use a strong secret key in production
-    user.tokens = user.tokens.concat({ token });
-    await user.save();
-    return token;
-};
+// userSchema.methods.generateAuthToken = async function () {
+//     const user = this;
+//     const token = jwt.sign({ _id: user._id.toString() }, 'secretkey'); // Use a strong secret key in production
+//     user.tokens = user.tokens.concat({ token });
+//     await user.save();
+//     return token;
+// };
 
 const User = mongoose.model('User', userSchema)
 
