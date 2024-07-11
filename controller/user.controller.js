@@ -1,4 +1,5 @@
 const User = require("../model/user.model")
+const genarateToken = require("../utils/generateAuthToken")
 
 exports.signUpUser = async (req, res) => {
     try {
@@ -80,9 +81,12 @@ exports.login = async (req, res) => {
             throw new Error('You are not register yet, please signup again!')
         }
 
+        const token = await genarateToken(user._id)
+
         res.status(200).json({
             message: 'User Login Successfully!',
-            data: user
+            data: user,
+            token
         })
     } catch (error) {
         res.status(400).json({
