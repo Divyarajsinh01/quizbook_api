@@ -37,8 +37,9 @@ exports.signUpUser = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     try {
-        const userID = req.params.id
-        const user = await User.findById({ _id: userID })
+        const userID = req.user._id
+
+        const user = await User.findOne({_id: userID})
 
         res.status(200).json({
             message: 'successfully profile fetch!',
