@@ -21,3 +21,18 @@ exports.addStadndard = async(req, res) => {
     }
 }
 
+
+exports.getStandard = async (req, res) => {
+    try {
+        const standard = await Standard.find()
+
+        res.status(200).json({
+            message: 'standard fetch successfully!',
+            data: standard
+        })
+    } catch (error) {
+        res.status(400).json({
+            message: error.message
+        })
+    }
+}
