@@ -4,16 +4,16 @@ exports.addSubject = async (req, res) => {
     try {
         const { subject, std_id } = req.body
 
-        const stadardData = new Subject({
+        const standardData = new Subject({
             subject,
             std_id
         })
 
-        await stadardData.save()
+        await standardData.save()
 
         res.status(200).json({
             message: 'subject added successfully!',
-            data: stadardData
+            data: standardData
         })
     } catch (error) {
         res.status(400).json({
@@ -61,7 +61,7 @@ exports.getSubject = async (req, res) => {
         [
             standard: [
                 _id
-                stdandard: name,
+                standard: name,
                 subject: [
                     subject: name,
                     _id: 

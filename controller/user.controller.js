@@ -1,5 +1,7 @@
 const User = require("../model/user.model")
 const genarateToken = require("../utils/generateAuthToken")
+const path = require('path')
+const fs = require('fs')
 
 exports.signUpUser = async (req, res) => {
     try {
@@ -92,6 +94,35 @@ exports.login = async (req, res) => {
     } catch (error) {
         res.status(400).json({
             message: "Something went wrong!",
+            error: error.message
+        })
+    }
+}
+
+
+exports.addUser = async (req, res) => {
+    try {
+        const {name, age} = req.body
+        const {img} = req.files
+        const uploadDir = path.join(__dirname, '../../upload');
+        const uploadPath = path.join(uploadDir, img.name);
+
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+
+        img.mv(uploadPath, (err) => {
+            if(err){
+                throw err
+            }
+        })
+
+        res.status(200).json({
+            message: 'success',
+            data: {name, age , img: uploadPath}
+        })
+    } catch (error) {
+        res.status(400).json({
             error: error.message
         })
     }
