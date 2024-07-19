@@ -7,6 +7,23 @@ exports.signUpUser = async (req, res) => {
     try {
         const { firstName, lastName, email, mobileNumber, gender, DOB, profession } = req.body
 
+        const {userProfile} = req.files
+
+        const uploadDir = path.join(__dirname, '../upload');
+        const uploadPath = path.join(uploadDir, userProfile.name);
+
+        if(!fs.existsSync(uploadDir)){
+            fs.mkdirSync(uploadDir)
+        }
+
+        userProfile.mv(uploadPath, (err) => {
+            if(err){
+                throw err
+            }
+        })
+
+        // console.log(userProfile);
+
         const isUSer = await User.findOne({ email })
 
         if (isUSer) {
@@ -20,7 +37,8 @@ exports.signUpUser = async (req, res) => {
             mobileNumber,
             gender,
             DOB,
-            profession
+            profession,
+            userProfile: `http://localhost:3000/${userProfile.name}`
         })
 
         await user.save()
@@ -100,30 +118,30 @@ exports.login = async (req, res) => {
 }
 
 
-exports.addUser = async (req, res) => {
-    try {
-        const {name, age} = req.body
-        const {img} = req.files
-        const uploadDir = path.join(__dirname, '../../upload');
-        const uploadPath = path.join(uploadDir, img.name);
+// exports.addUser = async (req, res) => {
+//     try {
+//         const {name, age} = req.body
+//         const {img} = req.files
+//         const uploadDir = path.join(__dirname, '../upload');
+//         const uploadPath = path.join(uploadDir, img.name);
 
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
+//         if (!fs.existsSync(uploadDir)) {
+//             fs.mkdirSync(uploadDir, { recursive: true });
+//         }
 
-        img.mv(uploadPath, (err) => {
-            if(err){
-                throw err
-            }
-        })
+//         img.mv(uploadPath, (err) => {
+//             if(err){
+//                 throw err
+//             }
+//         })
 
-        res.status(200).json({
-            message: 'success',
-            data: {name, age , img: uploadPath}
-        })
-    } catch (error) {
-        res.status(400).json({
-            error: error.message
-        })
-    }
-}
+//         res.status(200).json({
+//             message: 'success',
+//             data: {name, age , img: `http://localhost:3000/${img.name}`}
+//         })
+//     } catch (error) {
+//         res.status(400).json({
+//             error: error.message
+//         })
+//     }
+// }

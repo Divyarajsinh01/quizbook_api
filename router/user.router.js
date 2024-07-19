@@ -9,6 +9,6 @@ userRouter.post('/signup', signUpUser)
 userRouter.post('/login', login)
 userRouter.get('/profile', auth ,getUser)
 userRouter.get('/allUserData', getAllUser)
-userRouter.post('/add/user',addUser)
+// userRouter.post('/add/user',addUser)
 
 module.exports = userRouter

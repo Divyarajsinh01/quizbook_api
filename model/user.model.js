@@ -55,9 +55,9 @@ const userSchema = new mongoose.Schema({
             return value
         }
     },
-    // userProfile: {
-    //     type: String
-    // },
+    userProfile: {
+        type: String
+    },
     tokens: [{
         token: {
             type: String
