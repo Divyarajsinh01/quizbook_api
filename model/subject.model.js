@@ -8,6 +8,11 @@ const subjectSchema = new mongoose.Schema({
     std_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Standard'
+    },
+    subject_image: {
+        type: String,
+        required: true,
+        trim: true
     }
 })
 

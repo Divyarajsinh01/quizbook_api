@@ -38,14 +38,16 @@ exports.addChapter = async (req, res) => {
 
 exports.getChapters = async (req, res) => {
     try {
-        const chapter = await Chapter.find().populate({
-            path: 'sub_id',
-            modal: 'subject',
-            populate: {
-              path: 'std_id',
-              model: 'Standard'
-            }
-          })
+        const {sub_id} = req.body
+        const chapter = await Chapter.find({sub_id})
+        // .populate({
+        //     path: 'sub_id',
+        //     modal: 'subject',
+        //     populate: {
+        //       path: 'std_id',
+        //       model: 'Standard'
+        //     }
+        //   })
 
         res.status(400).json({
             message: 'chapter fetch successfully!',

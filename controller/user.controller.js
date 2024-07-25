@@ -7,17 +7,17 @@ exports.signUpUser = async (req, res) => {
     try {
         const { firstName, lastName, email, mobileNumber, gender, DOB, profession } = req.body
 
-        const {userProfile} = req.files
+        const { userProfile } = req.files
 
         const uploadDir = path.join(__dirname, '../upload');
         const uploadPath = path.join(uploadDir, userProfile.name);
 
-        if(!fs.existsSync(uploadDir)){
+        if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir)
         }
 
         userProfile.mv(uploadPath, (err) => {
-            if(err){
+            if (err) {
                 throw err
             }
         })
@@ -59,7 +59,7 @@ exports.getUser = async (req, res) => {
     try {
         const userID = req.user._id
 
-        const user = await User.findOne({_id: userID})
+        const user = await User.findOne({ _id: userID })
 
         res.status(200).json({
             message: 'successfully profile fetch!',
@@ -98,7 +98,7 @@ exports.login = async (req, res) => {
 
         const user = await User.findOne({ mobileNumber })
 
-        if(!user){
+        if (!user) {
             throw new Error('You are not register yet, please signup again!')
         }
 
@@ -117,6 +117,7 @@ exports.login = async (req, res) => {
     }
 }
 
+// image-upload demo 
 
 // exports.addUser = async (req, res) => {
 //     try {
@@ -145,3 +146,26 @@ exports.login = async (req, res) => {
 //         })
 //     }
 // }
+
+//user logout
+
+exports.logOutUser = async (req, res) => {
+    try {
+        const user = req.user
+
+        if (user) {
+            user.tokens = user.tokens.filter((token) => token.token !== req.token)
+            await user.save()
+        }
+
+        res.status(200).json({
+            message: 'user logout successfully!'
+        })
+
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
+        })
+    }
+}
+
