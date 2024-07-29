@@ -169,3 +169,23 @@ exports.logOutUser = async (req, res) => {
     }
 }
 
+//updateuserProfile
+
+exports.updateUserProfile = async (req, res) => {
+    try {
+        const user_id = req.user._id
+        const {firstName, lastName} = req.body
+        const user = await User.findOneAndUpdate({ _id: user_id }, { $set: { 
+            firstName,
+            lastName
+         }})
+
+        res.status(200).json({
+            user
+        })
+    } catch (err) {
+        res.status(400).json({
+            error: err.message
+        })
+    }
+}
