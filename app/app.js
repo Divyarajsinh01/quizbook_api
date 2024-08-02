@@ -9,6 +9,7 @@ const app = express()
 const path = require('path')
 const chapterRouter = require('../router/chapter.router')
 const questionRouter = require('../router/question.router')
+const resultRouter = require('../router/result.router')
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended: true}))
@@ -19,6 +20,7 @@ app.use(standardRouter)
 app.use(subjectRouter)
 app.use(chapterRouter)
 app.use(questionRouter)
+app.use(resultRouter)
 
 app.use('/',express.static(path.join(__dirname, '../upload')))
 app.get('/', async(req, res) => {
