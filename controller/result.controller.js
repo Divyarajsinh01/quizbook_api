@@ -110,9 +110,42 @@ exports.addResults = async (req, res) => {
 
         ]);
 
+        let total_question = 0
+        let right_question = 0
+        let wronge_question = 0
+
+        for (const result_data of resultData) {
+            const question_list = result_data.questions
+            // console.log(question_list);
+            total_question += question_list.length
+            // console.log(question_list);
+            for (const que of question_list) {
+                if (que.right_answer === que.user_answer) {
+                    right_question += 1
+                } else {
+                    wronge_question += 1
+                }
+            }
+        }
+
+        result.total_questions = total_question
+        result.total_right_answer = right_question
+        result.total_wronge_answer = wronge_question
+
+        await result.save()
+
         res.status(200).json({
             message: 'Result added successfully!',
-            data: resultData
+            data: [
+                ...resultData,
+                {
+                    total_questions : total_question,
+                    total_right_answer : right_question,
+                    total_wronge_answer : wronge_question
+                }
+            ]
+
+
         });
 
     } catch (error) {
@@ -121,3 +154,19 @@ exports.addResults = async (req, res) => {
         });
     }
 };
+
+
+exports.user_history = async (req, res) => {
+    try {
+        const history = await Result.find()
+
+        res.status(200).json({
+            message: 'histoty fetch succefully',
+            data: history
+        })
+    } catch (error) {
+        res.status(400).json({
+            message: error.message
+        });
+    }
+}

@@ -1,5 +1,3 @@
-const { model } = require("mongoose")
-const { path } = require("../app/app")
 const Question = require("../model/question.model")
 
 
